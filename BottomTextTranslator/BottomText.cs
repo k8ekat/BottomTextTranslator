@@ -6,21 +6,22 @@ namespace BottomTextTranslator;
 
 public static class BottomText
 {
-    private static BaseNAlphabet _bottomAlphabet = new BaseNAlphabet("asdfghjkl;");
 
-    public static string Encode(string TopText)
+    public static string Encode(string message, KeyboardLayout keyboardLayout)
     {
-        if (String.IsNullOrEmpty(TopText))
+        if (String.IsNullOrEmpty(message))
         {
             throw new ArgumentNullException();
         }
 
+        var bottomAlphabet = new BaseNAlphabet(keyboardLayout.Alphabet);
+
         //build base-alphabet
-        var alphabetString = ((char)0).ToString() + String.Join("", TopText.Distinct().ToList());
+        var alphabetString = ((char)0).ToString() + String.Join("", message.Distinct().ToList());
         var alphabetBytes = Encoding.ASCII.GetBytes(alphabetString);
 
         //encode text by decoding text using base-alphabet, converting into bigint
-        var bigintBytes = BaseConverter.Parse(TopText, new BaseNAlphabet(alphabetString)).ToByteArray();
+        var bigintBytes = BaseConverter.Parse(message, new BaseNAlphabet(alphabetString)).ToByteArray();
 
         //build message = alphabet length + alphabet bytes + bigint text bytes        
         var messageArray = new byte[1 + alphabetBytes.Length + bigintBytes.Length];
@@ -29,18 +30,20 @@ public static class BottomText
         Array.Copy(bigintBytes, 0, messageArray, alphabetBytes.Length + 1, bigintBytes.Length);
 
         //encode message in base-bottom and return message
-        return BaseConverter.ToBaseN(new BigInteger(messageArray), _bottomAlphabet);
+        return BaseConverter.ToBaseN(new BigInteger(messageArray), bottomAlphabet);
     }
 
-    public static string Decode(string BottomText)
+    public static string Decode(string message, KeyboardLayout keyboardLayout)
     {
-        if (String.IsNullOrEmpty(BottomText))
+        if (String.IsNullOrEmpty(message))
         {
             throw new ArgumentNullException();
         }
 
+        var bottomAlphabet = new BaseNAlphabet(keyboardLayout.Alphabet);
+
         //decode message from base-bottom to bigint then convert to byte array
-        var messageArray = BaseConverter.Parse(BottomText, _bottomAlphabet).ToByteArray();
+        var messageArray = BaseConverter.Parse(message, bottomAlphabet).ToByteArray();
 
         //pull alphabet from bigint byte array
         var alphabetLength = (int)messageArray[0];
@@ -53,6 +56,16 @@ public static class BottomText
 
         //decode by encoding bigint bytes in base-alphabet and return text
         return BaseConverter.ToBaseN(new BigInteger(bigintBytes), new BaseNAlphabet(Encoding.ASCII.GetString(alphabetBytes)));
+    }
+
+    public static string Encode(string message)
+    {
+        return BottomText.Encode(message, KeyboardLayout.QWERTY);
+    }
+
+    public static string Decode(string message)
+    {
+        return BottomText.Decode(message, KeyboardLayout.QWERTY);        
     }
 
 }
