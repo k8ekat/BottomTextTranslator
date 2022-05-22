@@ -18,7 +18,7 @@ public static class BottomText
 
         //build base-alphabet
         var alphabetString = ((char)0).ToString() + String.Join("", message.Distinct().ToList());
-        var alphabetBytes = Encoding.ASCII.GetBytes(alphabetString);
+        var alphabetBytes = Encoding.UTF8.GetBytes(alphabetString);
 
         //encode text by decoding text using base-alphabet, converting into bigint
         var bigintBytes = BaseConverter.Parse(message, new BaseNAlphabet(alphabetString)).ToByteArray();
@@ -55,7 +55,7 @@ public static class BottomText
         Array.Copy(messageArray, 1 + alphabetBytes.Length, bigintBytes, 0, bigintBytes.Length);
 
         //decode by encoding bigint bytes in base-alphabet and return text
-        return BaseConverter.ToBaseN(new BigInteger(bigintBytes), new BaseNAlphabet(Encoding.ASCII.GetString(alphabetBytes)));
+        return BaseConverter.ToBaseN(new BigInteger(bigintBytes), new BaseNAlphabet(Encoding.UTF8.GetString(alphabetBytes)));
     }
 
     public static string Encode(string message)
@@ -66,6 +66,16 @@ public static class BottomText
     public static string Decode(string message)
     {
         return BottomText.Decode(message, KeyboardLayout.QWERTY);        
+    }
+
+    public static string Encode(string message, string keytype)
+    {
+        return BottomText.Encode(message, KeyboardLayout.GetLayout(keytype));
+    }
+
+    public static string Decode(string message, string keytype)
+    {
+        return BottomText.Decode(message, KeyboardLayout.GetLayout(keytype));
     }
 
 }
