@@ -40,6 +40,11 @@ public static class BottomText
             throw new ArgumentNullException();
         }
 
+        if (!KeyboardLayout.ValidateKeyboardLayout(message, keyboardLayout))
+        {
+            throw new InvalidKeyboardLayoutException("Invalid characters detected in Message that do not exist in specified Keyboard Layout.");
+        }
+
         var bottomAlphabet = new BaseNAlphabet(keyboardLayout.Alphabet);
 
         //decode message from base-bottom to bigint then convert to byte array

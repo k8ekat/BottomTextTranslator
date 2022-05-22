@@ -18,4 +18,17 @@ public class KeyboardLayout
         return propertyInfo?.GetValue(null) as KeyboardLayout ?? KeyboardLayout.QWERTY;
     }
 
+    public static bool ValidateKeyboardLayout(string message, KeyboardLayout alphabet)
+    {
+        foreach(var c in message.Distinct().ToArray())
+        {
+            if(!alphabet.Alphabet.Contains(c))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
 }
