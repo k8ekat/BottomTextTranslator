@@ -15,7 +15,13 @@ public class KeyboardLayout
     public static KeyboardLayout GetLayout(string Layout)
     {
         var propertyInfo = typeof(KeyboardLayout).GetProperty(Layout);
-        return propertyInfo?.GetValue(null) as KeyboardLayout ?? KeyboardLayout.QWERTY;
+        return propertyInfo?.GetValue(null) as KeyboardLayout ?? throw new InvalidKeyboardLayoutException($"Invalid Keyboard Layout specified. Valid layouts are: {String.Join(", ", KeyboardLayout.ListLayouts())}");
+    }
+
+    public static IEnumerable<String> ListLayouts()
+    {
+        var layouts = typeof(KeyboardLayout).GetProperties();
+        return layouts.Where(x => x.GetAccessors(false)[0].IsStatic).Select(x => x.Name);
     }
 
     public static bool ValidateKeyboardLayout(string message, KeyboardLayout alphabet)

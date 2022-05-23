@@ -48,7 +48,7 @@ namespace BottomTextFunc
             message = message ?? data?.message;
             keytype = keytype ?? data?.keytype;
 
-            message = Encoding.UTF8.GetString(Convert.FromBase64String(message));
+            message = Encoding.UTF8.GetString(Convert.FromBase64String(message)).ToLowerInvariant();
 
             var decodedmessage = BottomText.Decode(message, keytype);
 
