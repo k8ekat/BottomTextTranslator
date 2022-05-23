@@ -1,12 +1,18 @@
 ﻿@page "/counter"
+@using System.Text.Json
+@using System.Text.Json.Serialization;
+@using System.Text
+@inject HttpClient Http
+
 
 <PageTitle>Counter</PageTitle>
 
 <h1>Counter</h1>
 
 <p role="status">Current count: @currentCount</p>
+<p role="status"> test thingy : @output</p>
 
-<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+<button class="btn btn-primary" @onclick="getdata">Click me</button>
 
 @code {
     private int currentCount = 0;
@@ -15,4 +21,53 @@
     {
         currentCount++;
     }
+
+    private string output = "";
+
+    private async void getdata()
+    {
+        string teststring = "teststring";
+
+        string keytype = "QWERTY";
+
+        string functionKey = "https://bottomtexttranslator.azurewebsites.net/api/Encode?code=iybiKiGrsDR3UPK2uA9VlhB7nTdmxWAtGXc0YpwkngAcAzFuyhO-xw==";
+
+        var request = new HttpRequestMessage(HttpMethod.Get, $"{functionKey}&message={Convert.ToBase64String(Encoding.UTF8.GetBytes(teststring))}&keytype={keytype}");
+
+
+        
+
+        HttpResponseMessage rsp = await Http.SendAsync(request);
+
+        
+
+        request.Headers.Add("Accept", "application/vnd.github.v3+json");
+        request.Headers.Add("User-Agent", "HttpClientFactory-Sample");
+
+
+        //using (HttpResponseMessage rsp = await Http.SendAsync(request))
+        //{
+        //    if(rsp.IsSuccessStatusCode)
+        //    {
+        //        using var responseStream = rsp.Content.ReadAsStreamAsync();
+
+        //    }
+        //}
+        //var rsp = Http.SendAsync(request);
+
+        //if (rsp.IsCompletedSuccessfully)
+        //{
+        //    using var responseStream = rsp.Content.ReadAsStreamAsync();
+        //    branches = await JsonSerializer.DeserializeAsync
+        //        <IEnumerable<GitHubBranch>>(responseStream);
+        //}
+        //else
+        //{
+        //    getBranchesError = true;
+        //}
+
+        //shouldRender = true;
+    }
+
+
 }

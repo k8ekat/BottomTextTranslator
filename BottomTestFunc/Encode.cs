@@ -27,7 +27,7 @@ namespace BottomTextFunc
 
         [FunctionName("Encode")]
         [OpenApiOperation(operationId: "Run", tags: new[] { "name" })]
-        //[OpenApiSecurity("function_key", SecuritySchemeType.ApiKey, Name = "code", In = OpenApiSecurityLocationType.Query)]
+        [OpenApiSecurity("function_key", SecuritySchemeType.ApiKey, Name = "code", In = OpenApiSecurityLocationType.Query)]
         [OpenApiParameter(name: "message", In = ParameterLocation.Query, Required = true, Type = typeof(string), Description = "the message to encode in bottomtext in base64/utf8")]
         [OpenApiParameter(name: "keytype", In = ParameterLocation.Query, Required = true, Type = typeof(string), Description = "the keyboard type to encode in")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "text/plain", bodyType: typeof(string), Description = "The OK response")]
@@ -47,15 +47,14 @@ namespace BottomTextFunc
 
             message = Encoding.UTF8.GetString(Convert.FromBase64String(message));
 
-            var encodedmessage = BottomText.Encode(message, keytype);
-            
             if(message.ToLower().Equals("coffee"))
             {
                 var result = new ObjectResult("beep beep im a teapot i cant make coffee :(");
                 result.StatusCode = StatusCodes.Status418ImATeapot;
                 return result;
             }
-            
+
+            var encodedmessage = BottomText.Encode(message, keytype);
 
             return new OkObjectResult(encodedmessage);
         }
