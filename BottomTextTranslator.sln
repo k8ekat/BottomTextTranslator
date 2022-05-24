@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BottomTextFunc", "BottomTes
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BottomTextUT", "BottomTextUT\BottomTextUT.csproj", "{7A07CB49-4FDD-4947-89BD-E3CF264BC054}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BottomTextBlazor", "BottomTextBlazor\BottomTextBlazor.csproj", "{64FC48A7-2626-431F-8C95-8B7BCF674604}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BottomTextBlazor", "BottomTextBlazor\BottomTextBlazor.csproj", "{64FC48A7-2626-431F-8C95-8B7BCF674604}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
