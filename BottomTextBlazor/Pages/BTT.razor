@@ -1,5 +1,6 @@
 ﻿@page "/btt"
 @using System.Text
+@using BottomTextTranslator
 @inject HttpClient Http
 
 <h3>BTT</h3>
@@ -8,7 +9,7 @@
     <InputTextArea class="form-control" @bind-Value="@MessageInput"/>
 </EditForm>
 <EditForm Model="KeyTypes">
-    <InputSelect  class="form-select" @bind-Value="KeyTypes">
+    <InputSelect  class="form-select" @bind-Value="@SelectedKeyType">
         @foreach(var keytype in KeyTypes)
         {
             <option value="@keytype">@keytype</option>
@@ -27,43 +28,43 @@
 @code {
     public string MessageInput = "input area";
     public string MessageOutput = "output area";
+    public string SelectedKeyType = "QWERTY";
 
-    private string UriBase   = "https://bottomtexttranslator.azurewebsites.net/api/";
-    private string UriEncode = $"{BTT.UriBase}Encode?code={String.Empty}";
-    private string UriDecode = $"{BTT.UriBase}Decode?code={String.Empty}";
+    //private string UriBase   = "https://bottomtexttranslator.azurewebsites.net/api/";
+    //private string UriEncode = $"{BTT.UriBase}Encode?code={String.Empty}";
+    //private string UriDecode = $"{BTT.UriBase}Decode?code={String.Empty}";
 
     private Boolean Encode = true; //encode = true, decode = false
 
-    private List<String> KeyTypes = new List<string>
-    {
-        "QWERTY",
-        "Colemak",
-        "Dvorak",
-        "ColemakDH",
-        "Workman"
-    };
+    private List<String> KeyTypes = BottomText.GetSupportedKeyboardLayouts().ToList();
 
     private void InputSwap()
     {
         Encode = !Encode;
+        MessageInput = MessageOutput;
+        MessageOutput = string.Empty;
     }
 
-    private async void SubmitBTTFuncReq()
+    private void SubmitBTTFuncReq()
     {
-        string teststring = "teststring";
-        string keytype = "QWERTY";
-
-        string FullUri = (Encode ? UriEncode : UriDecode) +
-                        $"&message={Convert.ToBase64String(Encoding.UTF8.GetBytes(teststring))}" +
-                        $"&keytype={keytype}"
-                        ;
+        if(String.IsNullOrEmpty(MessageInput))
+        {
+            return;
+        }
 
 
-        var rsp = await Http.GetAsync(FullUri);
-        rsp.EnsureSuccessStatusCode();
-        var rslt = await rsp.Content.ReadAsStringAsync();
+        //string FullUri = (Encode ? UriEncode : UriDecode) +
+        //                $"&message={Convert.ToBase64String(Encoding.UTF8.GetBytes(teststring))}" +
+        //                $"&keytype={keytype}"
+        //                ;
+        //var rsp = await Http.GetAsync(FullUri);
+        //rsp.EnsureSuccessStatusCode();
+        //var rslt = await rsp.Content.ReadAsStringAsync();
+        //MessageOutput = rslt;
 
-        MessageOutput = rslt;
+        
+        MessageOutput = Encode ? BottomText.Encode(MessageInput, SelectedKeyType) : BottomText.Decode(MessageInput, SelectedKeyType);
+
         StateHasChanged();
     }
 

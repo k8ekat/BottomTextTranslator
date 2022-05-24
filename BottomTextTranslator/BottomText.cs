@@ -83,4 +83,9 @@ public static class BottomText
         return BottomText.Decode(message, KeyboardLayout.GetLayout(keytype));
     }
 
+    public static IEnumerable<String> GetSupportedKeyboardLayouts()
+    {
+        return KeyboardLayout.ListLayouts();
+    }
+
 }
