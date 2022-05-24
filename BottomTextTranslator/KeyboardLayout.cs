@@ -1,6 +1,6 @@
 ﻿namespace BottomTextTranslator;
 
-public class KeyboardLayout
+sealed class KeyboardLayout
 {
     private KeyboardLayout(string value) { Alphabet = value; }
 

@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace BottomTextTranslator; 
 
-namespace BottomTextTranslator
+sealed class KeyboardLayoutMismatchException : Exception
 {
-    internal class KeyboardLayoutMismatchException
+    public KeyboardLayoutMismatchException(string? message) : base(message)
     {
     }
 }

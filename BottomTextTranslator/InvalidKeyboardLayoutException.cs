@@ -1,6 +1,6 @@
 ﻿namespace BottomTextTranslator;
 
-public class InvalidKeyboardLayoutException : Exception
+sealed class InvalidKeyboardLayoutException : Exception
 {
     public InvalidKeyboardLayoutException(string? message) : base(message)
     {

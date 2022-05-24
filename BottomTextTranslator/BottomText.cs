@@ -7,7 +7,7 @@ namespace BottomTextTranslator;
 public static class BottomText
 {
 
-    public static string Encode(string message, KeyboardLayout keyboardLayout)
+    private static string Encode(string message, KeyboardLayout keyboardLayout)
     {
         if (String.IsNullOrEmpty(message))
         {
@@ -33,7 +33,7 @@ public static class BottomText
         return BaseConverter.ToBaseN(new BigInteger(messageArray), bottomAlphabet);
     }
 
-    public static string Decode(string message, KeyboardLayout keyboardLayout)
+    private static string Decode(string message, KeyboardLayout keyboardLayout)
     {
         if (String.IsNullOrEmpty(message))
         {
@@ -63,26 +63,52 @@ public static class BottomText
         return BaseConverter.ToBaseN(new BigInteger(bigintBytes), new BaseNAlphabet(Encoding.UTF8.GetString(alphabetBytes)));
     }
 
+    /// <summary>
+    /// Encodes message into Bottom Text with default QWERTY keyboard layout.
+    /// </summary>
+    /// <param name="message">The unencoded text to encode.</param>
+    /// <returns>Encoded text in QWERTY Bottom Text</returns>
     public static string Encode(string message)
     {
         return BottomText.Encode(message, KeyboardLayout.QWERTY);
     }
 
+    /// <summary>
+    /// Decodes message from Bottom Text using default QWERTY keyboard layout.
+    /// </summary>
+    /// <param name="message">The encoded text encoded in QWERTY</param>
+    /// <returns>Decoded text</returns>
     public static string Decode(string message)
     {
         return BottomText.Decode(message, KeyboardLayout.QWERTY);        
     }
 
+    /// <summary>
+    /// Encodes message into Bottom Text with specified keyboard layout.
+    /// </summary>
+    /// <param name="message">The unencoded text to encode.</param>
+    /// <param name="keytype">The keyboard layout to encode with.</param>
+    /// <returns>Encoded text in keytype keyboard layout.</returns>
     public static string Encode(string message, string keytype)
     {
         return BottomText.Encode(message, KeyboardLayout.GetLayout(keytype));
     }
 
+    /// <summary>
+    /// Decodes message from Bottom Text using specified keyboard layout
+    /// </summary>
+    /// <param name="message">The encoded text in specified keytype</param>
+    /// <param name="keytype">The specified keytype that message was encoded with</param>
+    /// <returns>Decoded Text</returns>
     public static string Decode(string message, string keytype)
     {
         return BottomText.Decode(message, KeyboardLayout.GetLayout(keytype));
     }
 
+    /// <summary>
+    /// Gets a list of Keyboard Layouts supported by library.
+    /// </summary>
+    /// <returns>Enuberable collecton of supported keyboard layouts</returns>
     public static IEnumerable<String> GetSupportedKeyboardLayouts()
     {
         return KeyboardLayout.ListLayouts();
