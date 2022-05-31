@@ -4,23 +4,29 @@
 @inject HttpClient Http
 
 <h3>BTT</h3>
+
+
 <EditForm Model="MessageInput">
     <label id="toplabel">Text to Encode into Bottom</label>
     <InputTextArea class="form-control" @bind-Value="@MessageInput"/>
 </EditForm>
-<EditForm Model="KeyTypes">
-    <InputSelect  class="form-select" @bind-Value="@SelectedKeyType">
-        @foreach(var keytype in KeyTypes)
+
+
+    <select class="form-select" @bind="@SelectedKeyType">
+        @foreach(var keytype in BottomText.GetSupportedKeyboardLayouts())
         {
             <option value="@keytype">@keytype</option>
         }
-    </InputSelect>
-    </EditForm>
+    </select>
+
 <button class="btn btn-primary" @onclick="InputSwap">Swap Input</button>
 <button class="btn btn-primary" @onclick="SubmitBTTFuncReq">Translate</button>
+<br />
 <label id="bottomlabel">Text Encoded in BottomText</label>
+
+
 <EditForm Model="MessageOutput">
-    <InputTextArea class="form-control" @bind-Value="@MessageOutput"  @oninput="()=> SubmitBTTFuncReq()"/>
+    <InputTextArea class="form-control" @bind-Value="@MessageOutput"/>
 </EditForm>
     
 
@@ -30,13 +36,10 @@
     public string MessageOutput = "output area";
     public string SelectedKeyType = "QWERTY";
 
-    //private string UriBase   = "https://bottomtexttranslator.azurewebsites.net/api/";
-    //private string UriEncode = $"{BTT.UriBase}Encode?code={String.Empty}";
-    //private string UriDecode = $"{BTT.UriBase}Decode?code={String.Empty}";
+
+
 
     private Boolean Encode = true; //encode = true, decode = false
-
-    private List<String> KeyTypes = BottomText.GetSupportedKeyboardLayouts().ToList();
 
     private void InputSwap()
     {
@@ -49,23 +52,14 @@
     {
         if(String.IsNullOrEmpty(MessageInput))
         {
-            return;
+            return ;
         }
 
-
-        //string FullUri = (Encode ? UriEncode : UriDecode) +
-        //                $"&message={Convert.ToBase64String(Encoding.UTF8.GetBytes(teststring))}" +
-        //                $"&keytype={keytype}"
-        //                ;
-        //var rsp = await Http.GetAsync(FullUri);
-        //rsp.EnsureSuccessStatusCode();
-        //var rslt = await rsp.Content.ReadAsStringAsync();
-        //MessageOutput = rslt;
-
-        
         MessageOutput = Encode ? BottomText.Encode(MessageInput, SelectedKeyType) : BottomText.Decode(MessageInput, SelectedKeyType);
 
-        StateHasChanged();
+        //StateHasChanged();
+
+        //return MessageOutput;
     }
 
     

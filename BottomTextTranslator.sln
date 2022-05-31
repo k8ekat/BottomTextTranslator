@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BottomTextUT", "BottomTextU
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BottomTextBlazor", "BottomTextBlazor\BottomTextBlazor.csproj", "{64FC48A7-2626-431F-8C95-8B7BCF674604}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BTTTestConsole", "BTTTestConsole\BTTTestConsole.csproj", "{2CE87CB0-2300-40B3-BE3B-66166AB02E57}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{64FC48A7-2626-431F-8C95-8B7BCF674604}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{64FC48A7-2626-431F-8C95-8B7BCF674604}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{64FC48A7-2626-431F-8C95-8B7BCF674604}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2CE87CB0-2300-40B3-BE3B-66166AB02E57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CE87CB0-2300-40B3-BE3B-66166AB02E57}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2CE87CB0-2300-40B3-BE3B-66166AB02E57}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CE87CB0-2300-40B3-BE3B-66166AB02E57}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
