@@ -1,8 +1,24 @@
-﻿namespace BottomTextTranslator;
+﻿using System.Runtime.Serialization;
 
-sealed class InvalidKeyboardLayoutException : Exception
+namespace BottomTextTranslator
 {
-    public InvalidKeyboardLayoutException(string? message) : base(message)
+    [Serializable]
+    internal class InvalidKeyboardLayoutException : Exception
     {
+        public InvalidKeyboardLayoutException()
+        {
+        }
+
+        public InvalidKeyboardLayoutException(string? message) : base(message)
+        {
+        }
+
+        public InvalidKeyboardLayoutException(string? message, Exception? innerException) : base(message, innerException)
+        {
+        }
+
+        protected InvalidKeyboardLayoutException(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
+        }
     }
 }

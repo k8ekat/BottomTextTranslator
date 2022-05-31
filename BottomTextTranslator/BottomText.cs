@@ -1,5 +1,4 @@
 ﻿using System.Text;
-using Cambia.BaseN;
 using System.Numerics;
 
 namespace BottomTextTranslator;
@@ -14,14 +13,12 @@ public static class BottomText
             throw new ArgumentNullException();
         }
 
-        var bottomAlphabet = new BaseNAlphabet(keyboardLayout.Alphabet);
-
-        //build base-alphabet
+        //build base-alphabet, adding char 0 to alphabet in order to eliminate leading 0 character problem during decode
         var alphabetString = ((char)0).ToString() + String.Join("", message.Distinct().ToList());
         var alphabetBytes = Encoding.UTF8.GetBytes(alphabetString);
 
         //encode text by decoding text using base-alphabet, converting into bigint
-        var bigintBytes = BaseConverter.Parse(message, new BaseNAlphabet(alphabetString)).ToByteArray();
+        var bigintBytes = BaseConverter.FromBaseAlphabet(message, alphabetString).ToByteArray();
 
         //build message = alphabet length + alphabet bytes + bigint text bytes        
         var messageArray = new byte[1 + alphabetBytes.Length + bigintBytes.Length];
@@ -29,8 +26,8 @@ public static class BottomText
         Array.Copy(alphabetBytes, 0, messageArray, 1, alphabetBytes.Length);
         Array.Copy(bigintBytes, 0, messageArray, alphabetBytes.Length + 1, bigintBytes.Length);
 
-        //encode message in base-bottom and return message
-        return BaseConverter.ToBaseN(new BigInteger(messageArray), bottomAlphabet);
+        //encode message in base-layout and return message
+        return BaseConverter.ToBaseAlphabet(new BigInteger(messageArray), keyboardLayout.Alphabet);
     }
 
     private static string Decode(string message, KeyboardLayout keyboardLayout)
@@ -45,10 +42,8 @@ public static class BottomText
             throw new InvalidKeyboardLayoutException("Invalid characters detected in Message that do not exist in specified Keyboard Layout.");
         }
 
-        var bottomAlphabet = new BaseNAlphabet(keyboardLayout.Alphabet);
-
-        //decode message from base-bottom to bigint then convert to byte array
-        var messageArray = BaseConverter.Parse(message, bottomAlphabet).ToByteArray();
+        //decode message from base-layout to bigint then convert to byte array
+        var messageArray = BaseConverter.FromBaseAlphabet(message, keyboardLayout.Alphabet).ToByteArray();
 
         //pull alphabet from bigint byte array
         var alphabetLength = (int)messageArray[0];
@@ -60,7 +55,7 @@ public static class BottomText
         Array.Copy(messageArray, 1 + alphabetBytes.Length, bigintBytes, 0, bigintBytes.Length);
 
         //decode by encoding bigint bytes in base-alphabet and return text
-        return BaseConverter.ToBaseN(new BigInteger(bigintBytes), new BaseNAlphabet(Encoding.UTF8.GetString(alphabetBytes)));
+        return BaseConverter.ToBaseAlphabet(new BigInteger(bigintBytes), Encoding.UTF8.GetString(alphabetBytes));
     }
 
     /// <summary>
