@@ -1,24 +1,23 @@
 ﻿using System.Runtime.Serialization;
 
-namespace BottomTextTranslator
+namespace BottomTextTranslator;
+
+[Serializable]
+internal class InvalidAlphabetException : Exception
 {
-    [Serializable]
-    internal class InvalidAlphabetException : Exception
+    public InvalidAlphabetException()
     {
-        public InvalidAlphabetException()
-        {
-        }
+    }
 
-        public InvalidAlphabetException(string? message) : base(message)
-        {
-        }
+    public InvalidAlphabetException(string? message) : base(message)
+    {
+    }
 
-        public InvalidAlphabetException(string? message, Exception? innerException) : base(message, innerException)
-        {
-        }
+    public InvalidAlphabetException(string? message, Exception? innerException) : base(message, innerException)
+    {
+    }
 
-        protected InvalidAlphabetException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
+    protected InvalidAlphabetException(SerializationInfo info, StreamingContext context) : base(info, context)
+    {
     }
 }

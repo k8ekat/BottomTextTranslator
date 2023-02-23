@@ -1,24 +1,23 @@
 ﻿using System.Runtime.Serialization;
 
-namespace BottomTextTranslator
+namespace BottomTextTranslator;
+
+[Serializable]
+internal class InvalidKeyboardLayoutException : Exception
 {
-    [Serializable]
-    internal class InvalidKeyboardLayoutException : Exception
+    public InvalidKeyboardLayoutException()
     {
-        public InvalidKeyboardLayoutException()
-        {
-        }
+    }
 
-        public InvalidKeyboardLayoutException(string? message) : base(message)
-        {
-        }
+    public InvalidKeyboardLayoutException(string? message) : base(message)
+    {
+    }
 
-        public InvalidKeyboardLayoutException(string? message, Exception? innerException) : base(message, innerException)
-        {
-        }
+    public InvalidKeyboardLayoutException(string? message, Exception? innerException) : base(message, innerException)
+    {
+    }
 
-        protected InvalidKeyboardLayoutException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
+    protected InvalidKeyboardLayoutException(SerializationInfo info, StreamingContext context) : base(info, context)
+    {
     }
 }

@@ -4,6 +4,8 @@ sealed class KeyboardLayout
 {
     private KeyboardLayout(string value) { Alphabet = value; }
 
+    //private KeyboardLayout() : this(string.Empty) {  }
+
     public string Alphabet { get; private set; }
 
     public static KeyboardLayout QWERTY { get { return new KeyboardLayout("asdfghjkl;"); } }
